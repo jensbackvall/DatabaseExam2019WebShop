@@ -10,6 +10,21 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// All outr SQL statemtns here
+
+const fetchAllProducts = 'select * from TProduct';
+
+
+
+
+
+
+// End of  SQL statements
+
+
+
+
+
 
 // config for your database
 const config = {
@@ -27,11 +42,10 @@ app.get('/', function (req, res) {
       // create Request object
       var request = new sqlInstance.Request();
       // query to the database and get the products
-      request.query('select * from TProduct', function (err, products) {
+      request.query(fetchAllProducts, function (err, products) {
           if (err) console.log(err)
-          // send records as a response
+            // send records as a response
          console.log(products);
-        //  res.json(products);
          res.status(200).json({
           message: "Products fetched successfully",
           products: products
