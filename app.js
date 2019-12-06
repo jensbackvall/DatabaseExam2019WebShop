@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const sqlInstance = require('mssql');
+const url = require('url');
 
 const port = 3000;
 
@@ -24,7 +25,7 @@ app.get('/products', function (req, res) {
         // create Request object
         var request = new sqlInstance.Request();
         // query to the database and get the products
-        request.query('select * from TProduct', function (err, products) {
+        request.query('SELECT * FROM TProduct', function (err, products) {
             if (err) console.log(err)
             // send records as a response
             console.log(products);
@@ -32,7 +33,27 @@ app.get('/products', function (req, res) {
                 products: products
             });
         }); 
-})});
+    })
+});
+
+app.get('/product', function (req, res) {
+    const id = req.query.id;
+    sql_stmt = "SELECT * FROM TProduct WHERE nProductId = " + id;
+    sqlInstance.connect(configDB, function (err) {
+        if (err) console.log(err);
+        // create Request object
+        var request = new sqlInstance.Request();
+        // query to the database and get the products
+        request.query(sql_stmt, function (err, product) {
+            if (err) console.log(err)
+            // send records as a response
+            console.log(product);
+            res.status(200).json({
+                product: product
+            });
+        }); 
+    })
+});
 
 
 

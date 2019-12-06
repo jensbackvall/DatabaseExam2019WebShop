@@ -109,23 +109,24 @@ function deleteProducts(){
     })
 }
 
-function getOneProducts(){
-    var id = getArgument('--nProductId');
-
-    sql_stmt = "SELECT FROM TProduct WHERE nProductId = ?";
-
-    var nProductId = [id];
-
-    sql_stmt = mysql.format(sql_stmt, nProductId);
-
-    connection.query(sql_stmt, function (error, result) {
-        if (error) {
-            console.log('The following error occured while trying to insert a new record ' + error.message);
-        }
-        console.log();
-        console.log('Selected Product with id ' + id);
+app.get('/product', function (req, res) {
+    const id = req.query.id;
+    sql_stmt = "SELECT * FROM TProduct WHERE nProductId = " + id;
+    sqlInstance.connect(configDB, function (err) {
+        if (err) console.log(err);
+        // create Request object
+        var request = new sqlInstance.Request();
+        // query to the database and get the products
+        request.query(sql_stmt, function (err, product) {
+            if (err) console.log(err)
+            // send records as a response
+            console.log(product);
+            res.status(200).json({
+                product: product
+            });
+        }); 
     })
-}
+});
 
 var action = getArgument('--action');
 
