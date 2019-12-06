@@ -1,0 +1,49 @@
+main {
+    width: 90vw;
+    margin: auto;
+    background-color: lightgrey;
+    padding: 2rem;
+}
+
+.welcome-banner {
+    width: 100%;
+    text-align: center;
+    background-color: lightskyblue;
+    margin: 2rem;
+}
+
+.search-bar {
+    width: 100%;
+    text-align: center;
+    background-color: lightskyblue;
+    margin: 2rem;
+}
+.product-box__header {
+    width: 100%;
+    text-align: center;
+    background-color: lightskyblue;
+    margin: 2rem;
+}
+
+.product-box {
+    width: 100%;
+    text-align: center;
+    background-color: lightskyblue;
+    margin: 2rem;
+}
+
+.product-box__products {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+    background-color: lightgray;
+}
+
+.product {
+    background-color: #4CAF50;
+    color: #fff;
+    border-radius: 5px;
+    padding: 2rem;
+    font-size: 1.5rem;
+}

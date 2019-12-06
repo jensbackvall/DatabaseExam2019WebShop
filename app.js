@@ -18,7 +18,7 @@ const configDB = {
     database: 'DataBaseExam2019'
 };
 
-app.get('/', function (req, res) {
+app.get('/products', function (req, res) {
     sqlInstance.connect(configDB, function (err) {
         if (err) console.log(err);
         // create Request object
@@ -33,6 +33,20 @@ app.get('/', function (req, res) {
             });
         }); 
 })});
+
+
+
+app.get('', function (req, res) {
+    res.sendFile(__dirname + '/public/index/index.html');
+});
+
+app.get('/login', function (req, res) {
+    res.sendFile(__dirname + '/public/login/login.html');
+});
+
+app.get('/register', function (req, res) {
+    res.sendFile(__dirname + '/public/register/register.html');
+});
 
 
 
