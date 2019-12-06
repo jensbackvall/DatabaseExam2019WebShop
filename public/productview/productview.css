@@ -1,0 +1,15 @@
+main {
+    width: 90vw;
+    margin: auto;
+    background-color: lightgrey;
+    padding: 2rem;
+}
+
+.product {
+    width: 90;
+    background-color: #4CAF50;
+    color: #fff;
+    border-radius: 5px;
+    padding: 2rem;
+    font-size: 1.5rem;
+}
