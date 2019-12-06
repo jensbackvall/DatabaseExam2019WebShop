@@ -2,7 +2,7 @@
 
 // https://kode-blog.io/nodejs-database-mysql
 
-var mysql = require('mssql');
+var mssql = require('mssql');
 require('console.table');
 
 var connection = mysql.createConnection({
@@ -98,7 +98,7 @@ function deleteProducts(){
 
     var nProductId = [id];
 
-    sql_stmt = mysql.format(sql_stmt, nProductId);
+    sql_stmt = mssql.format(sql_stmt, nProductId);
 
     connection.query(sql_stmt, function (error, result) {
         if (error) {
