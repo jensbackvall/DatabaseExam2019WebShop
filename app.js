@@ -31,9 +31,10 @@ app.get('/', function (req, res) {
             res.status(200).json({
                 products: products
             });
-        });
-        
+        }); 
 })});
+
+
 
 
 
