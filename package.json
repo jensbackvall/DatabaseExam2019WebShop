@@ -2,7 +2,7 @@
   "name": "databaseexamwebshop",
   "version": "1.0.0",
   "description": "simple webshop for database exam 2019",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
