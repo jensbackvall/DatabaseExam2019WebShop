@@ -21,8 +21,7 @@ main {
 .product-box__header {
     width: 100%;
     text-align: center;
-    background-color: lightskyblue;
-    margin: 2rem;
+    text-transform: uppercase;
 }
 
 .product-box {

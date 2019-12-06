@@ -10,7 +10,7 @@ $.ajax({
     const thisProduct = res.product.recordsets[0][0];
     console.log(thisProduct);
 
-    const htmlString = "<div><h3>" + thisProduct.cName + "</h3><br><br>" + thisProduct.cDescription + "<br><br>price: " + thisProduct.nUnitPrice + "</div>"
+    const htmlString = "<div><h3>" + thisProduct.cName + "</h3><br><br>" + thisProduct.cDescription + "<br><br>price: DKK " + thisProduct.nUnitPrice + "</div>"
     $(".product").append(htmlString);
 
 
