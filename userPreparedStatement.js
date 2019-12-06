@@ -64,7 +64,33 @@ function registerUser(){
 
     var values = [nUserId, cName, cSurname,cAddress,cPhoneNumber,cEmail,nTotalPurchase,cZipCode,cUserName,cPassword];
 
-    sql_stmt = mssql.format(sql_stmt, values); // I tvivl om denne fungerer??? ændret fra -> sql_stmt = mysql.format(sql_stmt, values);
+    sql_stmt = mssql.format(sql_stmt, values); 
+    registerCard();
+    connection.query(sql_stmt, function (error, result) {
+        if (error) {
+            console.log('The following error occured while trying to insert a new record ' + error.message);
+        }
+        console.log();
+        console.log('Created new User with id ' + result.insertId);
+    })
+}
+
+function registerCard(){
+    var nCreditcardId = getArgument('--nCreditcardId');
+    var cCardNumber = getArgument('--cCardNumber');
+    var cCardHolder = getArgument('--cCardHolder');
+    var cExpiringDate = getArgument('--cExpiringDate');
+    var cCCV = getArgument('--cCCV');
+    var nTotalPurchase = getArgument('--nTotalPurchase');
+    var nUserId = getArgument('--nUserId');
+
+    sql_stmt = "INSERT INTO TCreditCard(nCreditcardId,cCardNumber,cCardHolder,cExpiringDate,cCCV,nTotalPurchase,nUserId) VALUES (?,?,?,?,?,?,?)";
+
+
+
+    var values = [nCreditcardId, cCardNumber, cCardHolder,cExpiringDate,cCCV,nTotalPurchase,nUserId];
+
+    sql_stmt = mssql.format(sql_stmt, values); 
 
     connection.query(sql_stmt, function (error, result) {
         if (error) {
@@ -74,6 +100,7 @@ function registerUser(){
         console.log('Created new User with id ' + result.insertId);
     })
 }
+
 
 function updateUser (){
     var nUserId = getArgument('--nUserId');
