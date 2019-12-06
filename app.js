@@ -19,13 +19,14 @@ const configDB = {
     database: 'DataBaseExam2019'
 };
 
+// This endpoint fetches all products from the database, ordering them by price ascending
 app.get('/products', function (req, res) {
     sqlInstance.connect(configDB, function (err) {
         if (err) console.log(err);
         // create Request object
         var request = new sqlInstance.Request();
         // query to the database and get the products
-        request.query('SELECT * FROM TProduct ORDER BY nUnitPrice DESC', function (err, products) {
+        request.query('SELECT * FROM TProduct ORDER BY nUnitPrice', function (err, products) {
             if (err) console.log(err)
             // send records as a response
             console.log(products);
@@ -36,6 +37,7 @@ app.get('/products', function (req, res) {
     })
 });
 
+// This endpoint fetches a single product from the database based on the products id
 app.get('/product', function (req, res) {
     const id = req.query.id;
     sql_stmt = "SELECT * FROM TProduct WHERE nProductId = " + id;

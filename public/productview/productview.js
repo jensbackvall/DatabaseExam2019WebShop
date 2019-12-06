@@ -1,6 +1,8 @@
+// Get the products id from the url parameters
 const urlParams = new URLSearchParams(window.location.search);
 const thisId = urlParams.get('id');
 
+// Get the product from the database via the endpoint /product, which takes an id
 $.ajax({
     "url": "../product?id=" + thisId,
     "method": "GET"
