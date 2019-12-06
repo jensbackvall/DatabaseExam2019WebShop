@@ -109,6 +109,24 @@ function deleteProducts(){
     })
 }
 
+function getOneProducts(){
+    var id = getArgument('--nProductId');
+
+    sql_stmt = "SELECT FROM TProduct WHERE nProductId = ?";
+
+    var nProductId = [id];
+
+    sql_stmt = mysql.format(sql_stmt, nProductId);
+
+    connection.query(sql_stmt, function (error, result) {
+        if (error) {
+            console.log('The following error occured while trying to insert a new record ' + error.message);
+        }
+        console.log();
+        console.log('Selected Product with id ' + id);
+    })
+}
+
 var action = getArgument('--action');
 
 switch(action){
