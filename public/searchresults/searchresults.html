@@ -30,4 +30,11 @@
     </main>
     <footer></footer>
 </body>
+
+<script>
+    $(".search-button" ).click(function() {
+        window.location = "http://localhost:3000/searchresults?search=" + $("#searchfield").val();
+    });
+</script>
+
 </html>
