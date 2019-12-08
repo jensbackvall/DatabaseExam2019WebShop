@@ -65,14 +65,15 @@ function registerUser(){
     var values = [nUserId, cName, cSurname,cAddress,cPhoneNumber,cEmail,nTotalPurchase,cZipCode,cUserName,cPassword];
 
     sql_stmt = mssql.format(sql_stmt, values); 
-    registerCard();
+    
     connection.query(sql_stmt, function (error, result) {
         if (error) {
             console.log('The following error occured while trying to insert a new record ' + error.message);
         }
         console.log();
         console.log('Created new User with id ' + result.insertId);
-    })
+    } )
+    registerCard();
 }
 
 function registerCard(){
