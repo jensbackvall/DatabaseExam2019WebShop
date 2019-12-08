@@ -29,7 +29,7 @@ app.get('/products', function (req, res) {
         request.query('SELECT * FROM TProduct ORDER BY nUnitPrice', function (err, products) {
             if (err) console.log(err)
             // send records as a response
-            console.log(products);
+            // console.log(products);
             res.status(200).json({
                 products: products
             });
@@ -49,7 +49,7 @@ app.get('/product', function (req, res) {
         request.query(sql_stmt, function (err, product) {
             if (err) console.log(err)
             // send records as a response
-            console.log(product);
+            // console.log(product);
             res.status(200).json({
                 product: product
             });
@@ -58,16 +58,21 @@ app.get('/product', function (req, res) {
 });
 
 // TODO: This endpoint fetches all products from the database, based on a given search word or string, ordering them by price ascending
+// This query works in azure data studio: SELECT * FROM TProduct WHERE (cName LIKE '%ban%' OR cDescription LIKE '%ban%' ) ORDER BY nUnitPrice;
 app.get('/search', function (req, res) {
+    const searchstring = req.query.search;
+    console.log('THE SEARCH STRING IS: ', searchstring);
+    sql_stmt = "SELECT * FROM TProduct WHERE (cName LIKE '%" + searchstring + "%' OR cDescription LIKE '%" + searchstring + "%' ) ORDER BY nUnitPrice;";
+    console.log('The sql statement is: ', sql_stmt);
     sqlInstance.connect(configDB, function (err) {
         if (err) console.log(err);
         // create Request object
         var request = new sqlInstance.Request();
         // query to the database and get the products
-        request.query('SELECT * FROM TProduct ORDER BY nUnitPrice', function (err, products) {
+        request.query(sql_stmt, function (err, products) {
             if (err) console.log(err)
             // send records as a response
-            console.log(products);
+            // console.log(products);
             res.status(200).json({
                 products: products
             });
