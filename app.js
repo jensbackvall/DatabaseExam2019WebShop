@@ -57,9 +57,35 @@ app.get('/product', function (req, res) {
     })
 });
 
+// TODO: This endpoint fetches all products from the database, based on a given search word or string, ordering them by price ascending
+app.get('/search', function (req, res) {
+    sqlInstance.connect(configDB, function (err) {
+        if (err) console.log(err);
+        // create Request object
+        var request = new sqlInstance.Request();
+        // query to the database and get the products
+        request.query('SELECT * FROM TProduct ORDER BY nUnitPrice', function (err, products) {
+            if (err) console.log(err)
+            // send records as a response
+            console.log(products);
+            res.status(200).json({
+                products: products
+            });
+        }); 
+    })
+});
+
+app.get('/searchresults', function (req, res) {
+    res.sendFile(__dirname + '/public/searchresults/searchresults.html');
+})
+
+app.get('/shoppingbasket', function (req, res) {
+    res.sendFile(__dirname + '/public/shopping-basket/shoppingbasket.html');
+});
+
 app.get('/productview', function (req, res) {
     res.sendFile(__dirname + '/public/productview/productview.html');
-})
+});
 
 app.get('', function (req, res) {
     res.sendFile(__dirname + '/public/index/index.html');

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>KEA webshop</title>
+    <title>Search Results</title>
     <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
     <script src="../index/index.js"></script>
     <link rel="stylesheet" type="text/css" href="../index/index.css" />
@@ -12,18 +12,15 @@
 <body>
     <header></header>
     <main>
-        <div class="welcome-banner">
-            What a wonderful webshop you've discovered!
-        </div>
         <div class="search-bar">
-            Looking for something specific? Search here!
+            Looking for something else? Search again!
             <form id="searchform">
                 <input type="text" class = "searchfield" name="searchfield" id="searchfield" placeholder="enter search word">
             </form>
             <button id="search-button" class="search-button" type="submit">SEARCH</button>
         </div>
         <div class="product-box__header">
-            <h3>our products</h3>
+            <h3>These Products Matched Your Search Query</h3>
         </div>
         <div class="product-box">
             <div class="product-box__products" id="products">
@@ -33,12 +30,4 @@
     </main>
     <footer></footer>
 </body>
-
-<script>
-    $(".search-button" ).click(function() {
-        window.location = "http://localhost:3000/searchresults?search=" + $("#searchfield").val();
-    });
-</script>
-
 </html>
-

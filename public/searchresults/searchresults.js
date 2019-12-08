@@ -1,13 +1,5 @@
-// Gets a search word or string form the search field and sends it to the searchresults page
-$(".search-button" ).click(function() {
-    console.log("Inside search-button")
-    window.location = "http://localhost:3000/searchresults?search=" + $("#searchfield").val();
-});
-
-
-// Fetches all products via en endpoint '/product'. This endpoints queries databse for all products
 $.ajax({
-    "url": "../products",
+    "url": "../search",
     "method": "GET"
 }).done(res => {
     const jsonList = res.products.recordset;

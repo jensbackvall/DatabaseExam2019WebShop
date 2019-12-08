@@ -5,24 +5,11 @@ main {
     padding: 2rem;
 }
 
-.welcome-banner {
-    width: 90%;
-    text-align: center;
-    background-color: lightskyblue;
-    margin: 2rem;
-    font-size: 2rem;
-    text-transform: uppercase;
-}
-
 .search-bar {
-    width: 90%;
+    width: 100%;
     text-align: center;
     background-color: lightskyblue;
     margin: 2rem;
-    padding: 2rem;
-    overflow: hidden;
-    font-size: 2rem;
-    text-transform: uppercase;
 }
 .product-box__header {
     width: 100%;
@@ -51,22 +38,4 @@ main {
     border-radius: 5px;
     padding: 2rem;
     font-size: 1.5rem;
-}
-
-.search-button {
-    float: right;
-    margin: 2rem;
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    width: 49%;
-    opacity: 0.8;
-}
-
-.searchfield {
-    float: left;
-    margin: 2rem;
-    font-size: 2rem;
 }
