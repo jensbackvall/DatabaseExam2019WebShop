@@ -1,5 +1,8 @@
 
 // Fetches all products via en endpoint '/product'. This endpoints queries databse for all products
+const currentUser = window.localStorage.getItem('userid');
+console.log(currentUser);
+
 $.ajax({
     "url": "../products",
     "method": "GET"

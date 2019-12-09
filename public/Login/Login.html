@@ -5,15 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="Login.css" />
+    <link rel="stylesheet" type="text/css" href="../main.css" />
 </head>
 <body>
+    
     <div class="login" id="">
         <h1 class="loginHeadline">Login</h1>
-        <input type="text" placeholder="Email" id="Username">
-        <input type="password" placeholder="Password" id="Password">
+        <input type="text" placeholder="Email" id="userNameField">
+        <input type="password" placeholder="Password" id="passwordField">
         <button onclick="window.location.href = '../register/register.html';" type="button" class="btn" id="registerBtn">Register</button>
         <button type="button" class="btn" id="loginBtn">Login</button>
     </div>
 </body>
+
+<script>
+    // Get the name and password for user validation
+    $("#loginBtn" ).click((event) => {
+        console.log("Inside logInButton")
+        event.preventDefault();
+        const jsonFormObj = {"username":$("#userNameField").val(), "password":$("#passwordField").val()};
+        console.log(jsonFormObj); 
+        $.ajax({
+            url: '/signin',
+            type: 'POST',
+            data: jsonFormObj,
+            dataType: 'json'
+        }).done(function(data){
+            console.log(data);
+            if (data.response === 'Logged In') {
+                $('#response').text('You are logged in');
+                console.log('USER ID: ', data.userid);
+                window.localStorage.setItem('userid', data.userid);
+                window.location.replace("/");
+            } else {
+                $('#response').text('You are not logged in');
+            }
+        })
+    });
+</script>
+
 </html>
