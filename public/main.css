@@ -1,0 +1,49 @@
+header {
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2rem;
+    background-color: lightgray;
+    margin-bottom: 2rem;
+}
+
+.logo {
+    width: 100%;
+}
+
+img {
+    height: 100px;
+    width: 100px;
+}
+
+.mid-header {
+    width: 100%;
+}
+
+.loginregister {
+    width: 100%;
+}
+
+.gotologinbutton {
+    float: left;
+    margin: 1rem;
+    background-color: rgb(110, 209, 113);
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 40%;
+    opacity: 0.8;
+}
+
+.gotoregisterbutton {
+    float: right;
+    margin: 1rem;
+    background-color: rgb(79, 180, 194);
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 40%;
+    opacity: 0.8;
+}
