@@ -13,9 +13,10 @@
     <header></header>
     <main>
         <div class="search-bar">
-            Looking for something else? Search again!
+            Looking for something else? Search here!<br><br>
             <form id="searchform">
-                <input type="text" class = "searchfield" name="searchfield" id="searchfield" placeholder="enter search word">
+                <span class="search-term">Title Search: </span><input type="text" class = "namesearchfield" name="namesearchfield" id="namesearchfield" placeholder="enter search term for product name"><br>
+                <span class="search-term">Description Search: </span><input type="text" class = "descriptionsearchfield" name="descriptionsearchfield" id="descriptionsearchfield" placeholder="enter search term for product description"><br>
             </form>
             <button id="search-button" class="search-button" type="submit">SEARCH</button>
         </div>
@@ -32,8 +33,11 @@
 </body>
 
 <script>
+    // Gets a search word or string form the search field and sends it to the searchresults page
     $(".search-button" ).click(function() {
-        window.location = "http://localhost:3000/searchresults?search=" + $("#searchfield").val();
+        console.log($("#namesearchfield").val());
+        console.log($("#descriptionsearchfield").val());
+        window.location = "http://localhost:3000/searchresults?name=" + $("#namesearchfield").val() + "&description=" + $("#descriptionsearchfield").val();
     });
 </script>
 

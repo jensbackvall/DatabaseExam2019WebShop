@@ -1,14 +1,17 @@
-console.log('parameters please!');
 // Get the search string from the url parameters
 const urlParams = new URLSearchParams(window.location.search);
-const thisSearch = urlParams.get('search');
-console.log('parameter search: ', thisSearch);
+const nameSearch = urlParams.get('name');
+const urlParams2 = new URLSearchParams(window.location.search);
+const descriptionSearch = urlParams2.get('description');
+console.log('name parameter search: ', nameSearch);
+console.log('description parameter search: ', descriptionSearch);
+
 
 $.ajax({
-    "url": "../search?search=" + thisSearch,
+    "url": "../search?name=" + nameSearch + "?description=" + descriptionSearch,
     "method": "GET"
 }).done(res => {
-    console.log('parameter search: ', thisSearch);
+    console.log('parameter search: ', nameSearch, " and ", descriptionSearch);
     const jsonList = res.products.recordset;
     console.log('LIST OF PRODUCTS: ', jsonList);
 

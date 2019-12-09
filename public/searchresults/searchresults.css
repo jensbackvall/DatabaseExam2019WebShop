@@ -57,7 +57,15 @@ main {
     opacity: 0.8;
 }
 
-.searchfield {
+.namesearchfield,
+.descriptionsearchfield {
+    float: right;
+    margin: 2rem;
+    font-size: 2rem;
+    width: 52%;
+}
+
+.search-term {
     float: left;
     margin: 2rem;
     font-size: 2rem;
