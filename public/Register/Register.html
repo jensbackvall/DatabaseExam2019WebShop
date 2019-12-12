@@ -7,32 +7,57 @@
     <title>Register</title>
     <link rel="stylesheet" type="text/css" href="Register.css" />
     <link rel="stylesheet" type="text/css" href="../main.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
 </head>
 <body>
    
     <div class="register" id="">
         <div class="registerUser" id="">
             <h1 class="registerHeadline">Register</h1>
-            <input type="text" placeholder="Name" id="Name">
-            <input type="text" placeholder="Surname" id="Surname">
-            <input type="text" placeholder="Address" id="Address">
-            <input type="text" placeholder="Zipcode" id="ZipCode">
-            <input type="text" placeholder="Phonenumber" id="PhoneNumber">
-            <input type="text" placeholder="Email" id="Email">
-            <input type="text" placeholder="Username" id="Username">
-            <input type="password" placeholder="Password" id="Password">
+            <input type="text" placeholder="Name" id="Namefield">
+            <input type="text" placeholder="Surname" id="Surnamefield">
+            <input type="text" placeholder="Address" id="Addressfield">
+            <input type="text" placeholder="Zipcode" id="ZipCodefield">
+            <input type="text" placeholder="Phonenumber" id="PhoneNumberfield">
+            <input type="text" placeholder="Email" id="Emailfield">
+            <input type="text" placeholder="Username" id="Usernamefield">
+            <input type="password" placeholder="Password" id="Passwordfield">
             <button onclick="window.location.href = '../login/login.html';" type="button" class="btn" id="BackLoginBtn">Back to Login</button>
             <button type="button" class="btn" id="registerBtn">Register</button>
         </div>
         <div class="registerCreditCard" id="">
                 <h1 class="registerHeadline">CreditCard</h1>
-                <input type="text" placeholder="Name" id="Name">
-                <input type="text" placeholder="Surname" id="Surname">
-                <input type="text" placeholder="Address" id="Address">
-                <input type="text" placeholder="Zipcode" id="ZipCode">
-                <input type="text" placeholder="Phonenumber" id="PhoneNumber">
-                <input type="password" placeholder="Password" id="Password">
+                <input type="text" placeholder="Full Name on Card" id="NameOnCardfield">
+                <input type="text" placeholder="Card Number" id="CardNumberfield">
+                <input type="text" placeholder="Expiration Date" id="ExpirationDatefield">
+                <input type="text" placeholder="CCV" id="CCVfield">
             </div>
     </div>
 </body>
+<script>
+    // Get the credentials for user registration
+    $("#registerBtn" ).click((event) => {
+        console.log("Inside registerBtn")
+        event.preventDefault();
+        const jsonFormObj = {"name":$("#Namefield").val(), "surname":$("#Surnamefield").val(), "address":$("#Addressfield").val(), "zipcode":$("#ZipCodefield").val(), "phonenumber":$("#PhoneNumberfield").val(), "email":$("#Emailfield").val(), "username":$("#Usernamefield").val(), "password":$("#Passwordfield").val(), "cardname":$("#NameOnCardfield").val(), "cardnumber":$("#CardNumberfield").val(), "expirationdate":$("#ExpirationDatefield").val(), "ccv":$("#CCVfield").val()};
+        console.log(jsonFormObj); 
+        $.ajax({
+            url: '/registeruser',
+            type: 'POST',
+            data: jsonFormObj,
+            dataType: 'json'
+        }).done(function(data){
+            console.log(data);
+            if (data.response === 'user created successfully') {
+                $('#response').text('Conratulations. You are now a KEA Webshop user!');
+                //console.log('USER ID: ', data.userid);
+                //window.localStorage.setItem('userid', data.userid);
+                //window.localStorage.setItem('username', $("#userNameField").val());
+                //window.location.replace("/");
+            } else {
+                $('#response').text('There was a problem registering. Please try again!');
+            }
+        })
+    });
+</script>
 </html>

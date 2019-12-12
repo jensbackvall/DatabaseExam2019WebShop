@@ -74,6 +74,53 @@ app.post("/signin", (req, res) => {
     }
 });
 
+
+// This endpoint fetches the user credentials and creditcard inforamtion for storing
+app.post("/registeruser", (req, res) => {
+    const enteredName = req.body.name;
+    const enteredSurname = req.body.surname;
+    const enteredAddress = req.body.address;
+    const enteredZipCode = req.body.zipcode;
+    const enteredPhonenumber = req.body.phonenumber;
+    const enteredmEmail = req.body.email;
+    const enteredUsername = req.body.username;
+    const enteredPassword = req.body.password;
+    const enteredCardName = req.body.cardname;
+    const enteredCardNumber = req.body.cardnumber;
+    const enteredExpirationdate = req.body.expirationdate;
+    const enteredCCV = req.body.ccv;
+    if (enteredName && enteredSurname && enteredPassword && enteredAddress && enteredZipCode && enteredPhonenumber && enteredmEmail && enteredUsername && enteredPassword && enteredCardName && enteredCardNumber && enteredExpirationdate && enteredCCV) {
+        sqlInstance.connect(configDB, function (err) {
+            if (err) console.log(err);
+             // create Request object
+             var request = new sqlInstance.Request();
+            // Create a new user in the database
+            const sql_stmt_user ="INSERT INTO TUser (cName, cSurname, cAddress, cZipCode, cPhoneNumber, cEmail, nTotalPurchase, cUserName, cPassword) VALUES (" + ");"
+            console.log('Creating user with statement: ', sql_stmt_user);
+            request.query(sql_stmt, function (err, result) {
+                console.log('A USER ID WAS RETURNED: ', result);
+                const nUserId = result.recordset[0].nUserId;
+                console.log(nUserId);
+                if (err) console.log(err);
+                if (nUserId > 0) {
+                    console.log('A USER ID WAS RETURNED: ', nUserId);
+                    res.status(200).json({
+                        response: "user created successfully",
+                        userid: nUserId
+                    });
+                } else {
+                    console.log('USER WAS NOT REGISTERED!');
+                    res.json({"response": "There was a problem registering. Please try again!"});
+                }
+            }); 
+        });       
+    } else {
+        res.json({"response": "username or password is INCORRECT"});
+    }
+});
+
+
+
 // This endpoint fetches all products from the database, ordering them by price ascending
 app.get('/products', function (req, res) {
     sqlInstance.connect(configDB, function (err) {
