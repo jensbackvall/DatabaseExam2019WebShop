@@ -164,26 +164,34 @@ app.get('/product', function (req, res) {
 app.get('/search', function (req, res) {
     const search = req.query.name.split('?');
     const nameSearch = search[0];
-    console.log(nameSearch);
-    console.log(' and ');
     const descriptionSearch = search[1].substring(12);
-    console.log(descriptionSearch);
-    sql_stmt = "SELECT * FROM TProduct WHERE (cName LIKE '%" + nameSearch + "%' AND cDescription LIKE '%" + descriptionSearch + "%' ) ORDER BY nUnitPrice;";
-    console.log('The sql statement is: ', sql_stmt);
-    sqlInstance.connect(configDB, function (err) {
-        if (err) console.log(err);
-        // create Request object
-        var request = new sqlInstance.Request();
-        // query to the database and get the products
-        request.query(sql_stmt, function (err, products) {
-            if (err) console.log(err)
-            // send records as a response
-            console.log(products);
-            res.status(200).json({
-                products: products
-            });
-        }); 
-    })
+    var pool = new sqlInstance.ConnectionPool(configDB);
+    pool.connect().then(function(){ 
+        // create PreparedStatement object
+        const ps = new sqlInstance.PreparedStatement(pool)
+        ps.input('nameSearch', sqlInstance.VarChar(255));
+        ps.input('descriptionSearch', sqlInstance.VarChar(2048));
+        ps.prepare("SELECT * FROM TProduct WHERE (cName LIKE @nameSearch AND cDescription LIKE @descriptionSearch) ORDER BY nUnitPrice;", err => {
+            // ... error checks
+            if(err) console.log(err);
+            ps.execute({nameSearch: "%"+nameSearch+"%",descriptionSearch: "%"+descriptionSearch+"%"}, (err, result) => {
+                // ... error checks
+                if(err) console.log(err);
+                console.log(result)
+                console.log(ps.statement)
+                res.status(200).json({
+                    products: result
+                  });
+                // release the connection after queries are executed
+                ps.unprepare(err => {
+                    // ... error checks
+                    if(err) console.log(err);
+                })
+                })
+        })
+    }).catch(function (err) {
+        console.log(err);
+    });
 });
 
 
