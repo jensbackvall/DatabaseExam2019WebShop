@@ -15,15 +15,19 @@
         <div class="logo">
             <img src="./images/logo.png" alt="logo">
         </div>
-        <div class="mid-header"></div>
+        <div class="mid-header">
+            
+        </div>
         <div class="loginregister">
             <button class="gotologinbutton" onclick="window.location.href = '../login/login.html';">LOG IN</button>
             <button class="gotoregisterbutton" onclick="window.location.href = '../register/register.html';">REGISTER NEW USER</button>
+            <br><br><br>
+            <a class="cart" href="../shopping-basket/shoppingbasket.html"><img src="../images/cart.png" alt="cart"></a>
         </div>
     </header>
     <main>
         <div class="welcome-banner">
-            What a wonderful webshop you've discovered!
+            What an Incredible Webshop you've discovered!
         </div>
         <div class="search-bar">
             Looking for something specific? Search here!<br><br>
@@ -52,6 +56,19 @@
         console.log($("#descriptionsearchfield").val());
         window.location = "http://localhost:3000/searchresults?name=" + $("#namesearchfield").val() + "&description=" + $("#descriptionsearchfield").val();
     });
+
+
+    if (window.localStorage.getItem('username') != null) {
+        $(".mid-header").html("Logged in as: " + window.localStorage.getItem('username') + "<br><br><button type='submit'  id='logOutButton'>Log Out</button>");    
+    }
+
+    $(`#logOutButton`).click((event) => {
+        window.localStorage.removeItem("username");
+        window.localStorage.removeItem("userid");
+        $(".mid-header").remove(`#logOutButton`);
+        location.reload(true);
+    });
+
 </script>
 
 </html>

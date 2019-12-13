@@ -43,7 +43,7 @@ body{
     border: 3px solid #f1f1f1;
     float: right;
     margin-left: 20px;
-    height: 430px;
+    height: 360px;
   }
 
   
@@ -59,4 +59,10 @@ body{
 
   .registerHeadline{
     text-align: center;
+}
+
+.login_error {
+  background-color: hotpink;
+  color: red;
+  font-size: large;
 }
