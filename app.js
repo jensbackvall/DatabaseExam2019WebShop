@@ -45,30 +45,46 @@ app.post("/signin", (req, res) => {
     console.log('UserName: ', enteredUsername);
     console.log('Password: ', enteredPassword);
     if (enteredUsername && enteredPassword) {
-        sqlInstance.connect(configDB, function (err) {
-            if (err) console.log(err);
-            // create Request object
-            var request = new sqlInstance.Request();
-            // query the database and get the id of the user
-            const sql_stmt ="SELECT nUserId FROM TUser WHERE cUsername='" + enteredUsername + "' AND cPassword='" + enteredPassword + "';"
-            console.log(sql_stmt);
-            request.query(sql_stmt, function (err, result) {
-                console.log('A USER ID WAS RETURNED: ', result);
-                const nUserId = result.recordset[0].nUserId;
-                console.log(nUserId);
-                if (err) console.log(err);
-                if (nUserId > 0) {
-                    console.log('A USER ID WAS RETURNED: ', nUserId);
-                    res.status(200).json({
-                        response: "Logged In",
-                        userid: nUserId
-                    });
-                } else {
-                    console.log('NO USER ID WAS RETURNED!');
-                    res.json({"response": "username or password is INCORRECT"});
-                }
-            }); 
-        });       
+        var pool = new sqlInstance.ConnectionPool(configDB);
+        pool.connect().then(function(){ 
+            // create PreparedStatement object
+            const ps = new sqlInstance.PreparedStatement(pool)
+            ps.input('username', sqlInstance.VarChar(25));
+            ps.input('password', sqlInstance.VarChar(25));
+            ps.prepare("SELECT nUserId FROM TUser WHERE cUsername=@username AND cPassword=@password;", err => {
+                // ... error checks
+                if(err) console.log(err);
+                ps.execute({username: enteredUsername,password: enteredPassword}, (err, result) => {
+                    // ... error checks
+                    if(err) console.log(err);
+                    console.log('A USER ID WAS RETURNED: ', result);
+                    if (result.recordset[0]==undefined){
+                        console.log('NO USER ID WAS RETURNED!');
+                        res.json({"response": "username or password is INCORRECT"});
+                    }else{
+                        const nUserId = result.recordset[0].nUserId;
+                        console.log(nUserId);
+                        if (nUserId > 0) {
+                            console.log('A USER ID WAS RETURNED: ', nUserId);
+                            res.status(200).json({
+                                response: "Logged In",
+                                userid: nUserId
+                            });
+                        } else {
+                            console.log('NO USER ID WAS RETURNED!');
+                            res.json({"response": "username or password is INCORRECT"});
+                        }
+                    }
+                    // release the connection after queries are executed
+                    ps.unprepare(err => {
+                        // ... error checks
+                        if(err) console.log(err);
+                    })
+                    })
+            })
+        }).catch(function (err) {
+            console.log(err);
+        });      
     } else {
         res.json({"response": "username or password is INCORRECT"});
     }

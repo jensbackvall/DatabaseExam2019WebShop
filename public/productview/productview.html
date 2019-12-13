@@ -26,9 +26,22 @@
 
         </div>
         <div class="purchasing-line">
-            <button class="purchasing-button">Add to cart</button>
+            <button class="purchasing-button" id="addCart">Add to cart</button>
         </div>
     </main>
     <footer></footer>
 </body>
+<script>
+    // Get the name and password for user validation
+    $("#addCart" ).click((event) => {
+        event.preventDefault();
+        let id = window.localStorage.getItem('userid');
+        if (id === null){
+            console.log("Id not found")
+        }else {
+            console.log("Id found")
+        }
+        
+    });
+</script>
 </html>
