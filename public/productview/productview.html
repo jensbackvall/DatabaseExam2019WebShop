@@ -34,7 +34,21 @@
         <!---->
         </div>
         <div class="purchasing-line">
-            <button class="purchasing-button" id="addCart">Add to cart</button>
+            <div class="rating-box">
+                Rate number of stars:
+                <select name="rating" id="ratingField">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
+                <textarea placeholder="comment (optional)" rows="3" cols="70" id="commentField"></textarea><br><br>
+                <button class="rating-button" id="ratingButton">Rate Product</button>
+            </div>
+            <div class="purchasing-box">
+                <button class="purchasing-button" id="addCart">Add to cart</button>
+            </div>
         </div>
     </main>
     <footer></footer>
@@ -54,11 +68,28 @@
         $(".mid-header").html("Logged in as: " + window.localStorage.getItem('username') + "<br><br><button type='submit'  id='logOutButton'>Log Out</button>");    
     }
 
-    $(`#logOutButton`).click((event) => {
+    $("#logOutButton").click((event) => {
         window.localStorage.removeItem("username");
         window.localStorage.removeItem("userid");
         $(".mid-header").remove(`#logOutButton`);
         location.reload(true);
     });
+
+    $("#ratingButton").click((event) => {
+        console.log("Inside ratingButton")
+        event.preventDefault();
+        const jsonFormObj = {"rating":$("#ratingField").val(), "comment":$("#commentField").val()};
+        console.log(jsonFormObj); 
+        $.ajax({
+            url: '/rating',
+            type: 'POST',
+            data: jsonFormObj,
+            dataType: 'json'
+        }).done(function(data){
+            console.log(data);
+            location.reload(true);
+        })
+    });
+
 </script>
 </html>

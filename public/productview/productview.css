@@ -16,7 +16,7 @@ main {
 
 .purchasing-line {
     margin: 1rem;
-    height: 3rem;
+    height: 10rem;
     background-color: rgb(145, 212, 147);
     color: #fff;
     border-radius: 3px;
@@ -33,6 +33,16 @@ main {
     border: none;
     cursor: pointer;
     width: 49%;
+    opacity: 0.8;
+}
+
+.rating-button {
+    margin: auto 0;
+    background-color: rgb(175, 76, 167);
+    color: white;
+    padding: 10px 14px;
+    border: none;
+    cursor: pointer;
     opacity: 0.8;
 }
    
@@ -83,4 +93,12 @@ table th {
 .stars-inner::before {
     content: "\f005 \f005 \f005 \f005 \f005";
     color: #f8ce0b;
+}
+
+.rating-box {
+    float: left;
+}
+
+.purhasing-box {
+    float: right;
 }
