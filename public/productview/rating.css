@@ -1,4 +1,5 @@
     /*From https://webdesign.tutsplus.com/tutorials/a-simple-javascript-technique-for-filling-star-ratings--cms-29450 */
+/* isnt used*/
 
 table {
     margin: 0 auto;
@@ -25,7 +26,6 @@ table {
   .stars-outer {
     display: inline-block;
     position: relative;
-    font-family: FontAwesome;
   }
    
   .stars-outer::before {
