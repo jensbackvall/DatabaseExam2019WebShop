@@ -19,6 +19,8 @@
         <div class="loginregister">
             <button class="gotologinbutton" onclick="window.location.href = '../login/login.html';">LOG IN</button>
             <button class="gotoregisterbutton" onclick="window.location.href = '../register/register.html';">REGISTER NEW USER</button>
+            <br><br><br>
+            <a class="cart" href="../shopping-basket/shoppingbasket.html"><img src="../images/cart.png" alt="cart"></a>
         </div>
     </header>
     <main>
@@ -41,7 +43,16 @@
         }else {
             console.log("Id found")
         }
-        
+    });  
+    if (window.localStorage.getItem('username') != null) {
+        $(".mid-header").html("Logged in as: " + window.localStorage.getItem('username') + "<br><br><button type='submit'  id='logOutButton'>Log Out</button>");    
+    }
+
+    $(`#logOutButton`).click((event) => {
+        window.localStorage.removeItem("username");
+        window.localStorage.removeItem("userid");
+        $(".mid-header").remove(`#logOutButton`);
+        location.reload(true);
     });
 </script>
 </html>

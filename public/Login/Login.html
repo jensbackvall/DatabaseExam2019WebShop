@@ -38,6 +38,7 @@
                 $('#response').text('You are logged in');
                 console.log('USER ID: ', data.userid);
                 window.localStorage.setItem('userid', data.userid);
+                window.localStorage.setItem('username', $("#userNameField").val());
                 window.location.replace("/");
             } else {
                 $('#response').text('You are not logged in');

@@ -35,3 +35,14 @@ main {
     width: 49%;
     opacity: 0.8;
 }
+
+#logoutbutton {
+    margin: auto 0;
+    background-color: rgb(172, 76, 175);
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 49%;
+    opacity: 0.8;
+}
