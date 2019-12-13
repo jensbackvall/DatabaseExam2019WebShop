@@ -1,4 +1,6 @@
-// checking if rating works hard coded
+
+
+// from https://webdesign.tutsplus.com/tutorials/a-simple-javascript-technique-for-filling-star-ratings--cms-29450
 
 const ratings = {
     hotel_a : 2.8,
@@ -18,3 +20,4 @@ const ratings = {
     // 4
     document.querySelector(`.${rating} .stars-inner`).style.width = starPercentageRounded; 
   }
+
