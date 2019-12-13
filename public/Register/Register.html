@@ -26,12 +26,13 @@
             <button type="button" class="btn" id="registerBtn">Register</button>
         </div>
         <div class="registerCreditCard" id="">
-                <h1 class="registerHeadline">CreditCard</h1>
-                <input type="text" placeholder="Full Name on Card" id="NameOnCardfield">
-                <input type="text" placeholder="Card Number" id="CardNumberfield">
-                <input type="text" placeholder="Expiration Date" id="ExpirationDatefield">
-                <input type="text" placeholder="CCV" id="CCVfield">
-            </div>
+            <h1 class="registerHeadline">CreditCard</h1>
+            <input type="text" placeholder="Full Name on Card" id="NameOnCardfield">
+            <input type="text" placeholder="Card Number" id="CardNumberfield">
+            <input type="text" placeholder="Expiration Month (mm)" id="ExpirationMonthfield">
+            <input type="text" placeholder="Expiration Year (YY)" id="ExpirationYearfield">
+            <input type="text" placeholder="CCV" id="CCVfield">
+        </div>
     </div>
 </body>
 <script>
@@ -39,7 +40,7 @@
     $("#registerBtn" ).click((event) => {
         console.log("Inside registerBtn")
         event.preventDefault();
-        const jsonFormObj = {"name":$("#Namefield").val(), "surname":$("#Surnamefield").val(), "address":$("#Addressfield").val(), "zipcode":$("#ZipCodefield").val(), "phonenumber":$("#PhoneNumberfield").val(), "email":$("#Emailfield").val(), "username":$("#Usernamefield").val(), "password":$("#Passwordfield").val(), "cardname":$("#NameOnCardfield").val(), "cardnumber":$("#CardNumberfield").val(), "expirationdate":$("#ExpirationDatefield").val(), "ccv":$("#CCVfield").val()};
+        const jsonFormObj = {"name":$("#Namefield").val(), "surname":$("#Surnamefield").val(), "address":$("#Addressfield").val(), "zipcode":$("#ZipCodefield").val(), "phonenumber":$("#PhoneNumberfield").val(), "email":$("#Emailfield").val(), "username":$("#Usernamefield").val(), "password":$("#Passwordfield").val(), "cardname":$("#NameOnCardfield").val(), "cardnumber":$("#CardNumberfield").val(), "expirationmonth":$("#ExpirationMonthfield").val(), "expirationyear":$("#ExpirationYearfield").val(), "ccv":$("#CCVfield").val()};
         console.log(jsonFormObj); 
         $.ajax({
             url: '/registeruser',
@@ -47,16 +48,20 @@
             data: jsonFormObj,
             dataType: 'json'
         }).done(function(data){
-            console.log(data);
-            if (data.response === 'user created successfully') {
-                $('#response').text('Conratulations. You are now a KEA Webshop user!');
+            console.log('DATA: ', data);
+            window.location.replace("/login");
+            /*if (data.message === 'unable to create user') {
+                console.log('DATA: ', data);
+                const htmlString = "<div class='login_error'><p>USERNAME ALREADY IN USE!<br>PLEASE TRY AGAIN!</p></div>'";
+                $(".registerCreditCard").append(htmlString);
                 //console.log('USER ID: ', data.userid);
                 //window.localStorage.setItem('userid', data.userid);
                 //window.localStorage.setItem('username', $("#userNameField").val());
                 //window.location.replace("/");
             } else {
-                $('#response').text('There was a problem registering. Please try again!');
-            }
+                console.log('DATA: ', data);
+                window.location.replace("/login");
+            }*/
         })
     });
 </script>
