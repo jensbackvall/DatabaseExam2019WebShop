@@ -39,9 +39,9 @@
         event.preventDefault();
         let id = window.localStorage.getItem('userid');
         if (id === null){
-            console.log("Id not found")
+            console.log("Id not found");
         }else {
-            console.log("Id found")
+            console.log("Id found: ", id);
         }
     });  
     if (window.localStorage.getItem('username') != null) {

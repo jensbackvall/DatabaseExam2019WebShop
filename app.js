@@ -292,7 +292,5 @@ app.get('/search', function (req, res) {
 });
 
 
-
-
 // Run the backend on the chosen port
 app.listen(process.env.PORT || port, () => console.log(`Listening on port ${port}!`))
