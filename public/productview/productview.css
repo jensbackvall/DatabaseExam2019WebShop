@@ -64,7 +64,7 @@ table th {
 .stars-outer {
     display: inline-block;
     position: relative;
-    font-family: Georgia, serif;
+    font-family: FontAwesome;
 }
        
 .stars-outer::before {
