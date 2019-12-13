@@ -1,3 +1,4 @@
+
 CREATE DATABASE DataBaseExam2019
 GO
 USE [DataBaseExam2019]
