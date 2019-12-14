@@ -237,11 +237,12 @@ app.get('/product', function (req, res) {
         // create PreparedStatement object
         const ps = new sqlInstance.PreparedStatement(pool)
         ps.input('id', sqlInstance.VarChar(255));
-        ps.prepare("SELECT * FROM TProduct WHERE nProductId = @id", err => {
+        ps.prepare("EXEC getProductWithAllComments @productid = @id;", err => {
             // ... error checks
             if(err) console.log(err);
             ps.execute({id}, (err, result) => {
                 // ... error checks
+                console.log(result);
                 if(err) console.log(err);
                 res.status(200).json({
                     product: result
@@ -258,7 +259,11 @@ app.get('/product', function (req, res) {
     });
 });
 
-// TODO: This endpoint fetches all products from the database, based on a given search word or string, ordering them by price ascending
+
+app.post("/rating", (req, res) => {
+});
+
+// This endpoint fetches all products from the database, based on a given search word or string, ordering them by price ascending
 // The equivalent query in azure data studio: SELECT * FROM TProduct WHERE (cName LIKE '%ban%' OR cDescription LIKE '%banana%' ) ORDER BY nUnitPrice;
 app.get('/search', function (req, res) {
     const search = req.query.name.split('?');
