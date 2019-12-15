@@ -20,11 +20,12 @@ $.ajax({
 
     $(".stars-inner").width(width);
 
+    if (comments.length < 1) {
+        $(".comment-box").append("<div>This product has not received any comments yet. If you like it or have experience using it, why not be the first to comment?</div>");
+    };
+
     for (let i = 0; i < comments.length; i++) {
         const comment = comments[i];
-        // if (comment) {
-        //     $(".purchasing-line").append("<div class='comment-box'></div>");
-        // }
         const html_comment = "<div class='comment'>" + comment.cComment + "</div>";
         $(".comment-box").append(html_comment);
     }        
