@@ -68,6 +68,8 @@
         let id = window.localStorage.getItem('userid');
         if (id === null){
             console.log("Id not found");
+            // Prompt user to log in before attempting to purchase anything
+            $(".product").append("<div  style='text-align: center; color: red;'>PLEASE LOG IN. YOU MUST BE LOGGED IN TO PURCHASE AN ITEM.</div>");
         }else {
             console.log("Id found: ", id);
         }
@@ -84,19 +86,29 @@
     });
 
     $("#ratingButton").click((event) => {
-        console.log("Inside ratingButton")
+        console.log("Inside ratingButton");
         event.preventDefault();
-        const jsonFormObj = {"rating":$("#ratingField").val(), "comment":$("#commentField").val()};
-        console.log(jsonFormObj); 
-        $.ajax({
-            url: '/rating',
-            type: 'POST',
-            data: jsonFormObj,
-            dataType: 'json'
-        }).done(function(data){
-            console.log(data);
-            location.reload(true);
-        })
+        let userId = window.localStorage.getItem('userid');
+        // Get the products id from the url parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        if (userId === null){
+            console.log("No user logged in!");
+            // Prompt user to log in before attempting to purchase anything
+            $(".purchasing-line").append("<div  style='text-align: center; color: red;'>PLEASE LOG IN. YOU MUST BE LOGGED IN TO RATE AN ITEM.</div>");
+        } else {
+            const jsonFormObj = {"productid":productId, "userid":userId, "rating":$("#ratingField").val(), "comment":$("#commentField").val()};
+            console.log(jsonFormObj); 
+            $.ajax({
+                url: '/rating',
+                type: 'POST',
+                data: jsonFormObj,
+                dataType: 'json'
+            }).done(function(data){
+                console.log(data);
+                location.reload(true);
+            })
+        }
     });
 
 </script>

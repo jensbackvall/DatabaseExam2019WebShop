@@ -26,7 +26,9 @@ $.ajax({
 
     for (let i = 0; i < comments.length; i++) {
         const comment = comments[i];
-        const html_comment = "<div class='comment'>" + comment.cComment + "</div>";
-        $(".comment-box").append(html_comment);
+        if (comment !== '') {
+            const html_comment = "<div class='comment'>" + comment.cComment + "</div>";
+            $(".comment-box").append(html_comment);
+        } 
     }        
 });

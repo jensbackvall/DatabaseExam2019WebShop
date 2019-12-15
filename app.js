@@ -185,10 +185,10 @@ app.post("/registeruser", (req, res) => {
                                     res.status(200).json({
                                     message: 'user created successfully'
                                 });
-                            } else {
-                                console.log(ps.statement)
-                                console.log(result)
-                                res.status(200).json({
+                                } else {
+                                    console.log(ps.statement)
+                                    console.log(result)
+                                    res.status(200).json({
                                     message: 'unable to create user'
                                 });
                             }
@@ -259,8 +259,56 @@ app.get('/product', function (req, res) {
     });
 });
 
-
+/* This endpoint gets a rating and optional comment from the productView. It should correspond to the following sq server statement: INSERT INTO TRating (nUserId, nStar, cComment, nProductId)
+VALUES (400 , 5, 'Great product. I cannot live without it', 7);*/
 app.post("/rating", (req, res) => {
+    const productId = req.body.productid;
+    console.log('PRODUCT ID: ', productId);
+    const userId = req.body.userid;
+    console.log('USER ID: ', userId);
+    const enteredRating = req.body.rating;
+    console.log('RATING: ', enteredRating);
+    const enteredComment = req.body.comment;
+    console.log('COMMENT: ', enteredComment);
+    if (productId, userId, enteredRating) {
+        var pool = new sqlInstance.ConnectionPool(configDB);
+        pool.connect().then(function(){ 
+            // create PreparedStatement object
+            const ps = new sqlInstance.PreparedStatement(pool)
+            ps.input('userId', sqlInstance.Int);
+            ps.input('enteredRating', sqlInstance.TinyInt);
+            ps.input('enteredComment', sqlInstance.Text);
+            ps.input('productId', sqlInstance.Int);
+            ps.prepare("INSERT INTO TRating (nUserId, nStar, cComment, nProductId) VALUES (@userId , @enteredRating, @enteredComment, @productId);", err => {
+                // ... error checks
+                if(err) console.log(err);
+                ps.execute({userId, enteredRating, enteredComment, productId}, (err, result) => {
+                    // ... error checks
+                    if(err) {
+                        console.log(err);
+                        res.status(200).json({
+                            message: 'rating created successfully'
+                        });
+                    } else {
+                        console.log(ps.statement)
+                        console.log(result)
+                        res.status(200).json({
+                            message: 'unable to create rating'
+                        });
+                    }
+                    // release the connection after queries are executed
+                    ps.unprepare(err => {
+                        // ... error checks
+                        if(err) console.log(err);
+                    })
+                })
+            })
+        }).catch(function (err) {
+            console.log(err);
+        });      
+    } else {
+        res.json({"response": "insufficient inputs from rating, userid and productid"});
+    }
 });
 
 // This endpoint fetches all products from the database, based on a given search word or string, ordering them by price ascending
