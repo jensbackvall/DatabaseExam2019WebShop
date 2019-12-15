@@ -77,6 +77,8 @@
             const productId = urlParams.get('id');
             // Get the products price from the data-value field
             const productPrice = document.getElementById('productinfo').getAttribute('data-value');
+            // Get the products name from the name-value field
+            const productName = document.getElementById('productinfo').getAttribute('name-value');
             if (window.localStorage.getItem('productsInCart') ) {
                 let storedCart = JSON.parse(localStorage.getItem('productsInCart'));
 
@@ -88,6 +90,7 @@
                     let result = JSON.parse(window.localStorage.getItem('productsInCart'));
                     console.log('PRODUCTS IN CART: ', result);
                 } else {
+                    storedCart['Name'][productId] = productName;
                     storedCart['Price'][productId] = productPrice;
                     storedCart['Quantity'][productId] = 1;
                     window.localStorage.removeItem('productsInCart');
@@ -99,11 +102,14 @@
             } else {
                 console.log('NO, productsInCart DOES NOT EXIST');
                 let productsInCart = { 
+                    "Name":
+                    {},
                     "Price":
                     {},
                     "Quantity":
                     {} 
                 };
+                productsInCart['Name'][productId] = productName;
                 productsInCart['Price'][productId] = productPrice;
                 productsInCart['Quantity'][productId] = 1;
                 window.localStorage.setItem('productsInCart', JSON.stringify(productsInCart));
