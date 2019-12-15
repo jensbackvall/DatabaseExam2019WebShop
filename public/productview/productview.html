@@ -49,7 +49,7 @@
                 <button class="rating-button" id="ratingButton">Rate Product</button>
             </div>
             <div class="purchasing-box">
-                <button class="purchasing-button" id="addCart">Add to cart</button>
+                <button class="purchasing-button" id="addToCart">Add to cart</button>
             </div>
         </div>
         <div class='comment-box'>
@@ -62,22 +62,64 @@
     <footer></footer>
 </body>
 <script>
-    // Get the name and password for user validation
-    $("#addCart" ).click((event) => {
+    
+    // Add item to cart
+    $("#addToCart").click((event) => {
         event.preventDefault();
         let id = window.localStorage.getItem('userid');
         if (id === null){
             console.log("Id not found");
             // Prompt user to log in before attempting to purchase anything
             $(".product").append("<div style='text-align: center; color: red;'>PLEASE LOG IN. YOU MUST BE LOGGED IN TO PURCHASE AN ITEM.</div>");
-        }else {
-            console.log("Id found: ", id);
-        }
+        } else { 
+            // Get the products id from the url parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            // Get the products price from the data-value field
+            const productPrice = document.getElementById('productinfo').getAttribute('data-value');
+            if (window.localStorage.getItem('productsInCart') ) {
+                let storedCart = JSON.parse(localStorage.getItem('productsInCart'));
+
+                if (storedCart['Price'].hasOwnProperty(productId)) {
+                    storedCart['Quantity'][productId] = storedCart['Quantity'][productId] + 1;
+                    window.localStorage.removeItem('productsInCart');
+                    window.localStorage.setItem('productsInCart', JSON.stringify(storedCart));
+                    console.log('GETTING CART FROM WINDOW LOCALSTORAGE');
+                    let result = JSON.parse(window.localStorage.getItem('productsInCart'));
+                    console.log('PRODUCTS IN CART: ', result);
+                } else {
+                    storedCart['Price'][productId] = productPrice;
+                    storedCart['Quantity'][productId] = 1;
+                    window.localStorage.removeItem('productsInCart');
+                    window.localStorage.setItem('productsInCart', JSON.stringify(storedCart));
+                    console.log('GETTING CART FROM WINDOW LOCALSTORAGE');
+                    let result = JSON.parse(window.localStorage.getItem('productsInCart'));
+                    console.log('PRODUCTS IN CART: ', result);
+                };
+            } else {
+                console.log('NO, productsInCart DOES NOT EXIST');
+                let productsInCart = { 
+                    "Price":
+                    {},
+                    "Quantity":
+                    {} 
+                };
+                productsInCart['Price'][productId] = productPrice;
+                productsInCart['Quantity'][productId] = 1;
+                window.localStorage.setItem('productsInCart', JSON.stringify(productsInCart));
+                console.log('GETTING CART FROM WINDOW LOCALSTORAGE');
+                let result = JSON.parse(window.localStorage.getItem('productsInCart'));
+                console.log('PRODUCTS IN CART: ', result);
+            };
+        };
     });  
+
+    // Check if a user i logged in and display username and logout button if this is true
     if (window.localStorage.getItem('username') != null) {
         $(".mid-header").html("Logged in as: " + window.localStorage.getItem('username') + "<br><br><button type='submit'  id='logOutButton'>Log Out</button>");    
     }
 
+    // Drop localstorage user variable and remove username and logout button if logout button is clicked
     $("#logOutButton").click((event) => {
         window.localStorage.removeItem("username");
         window.localStorage.removeItem("userid");
@@ -85,6 +127,7 @@
         location.reload(true);
     });
 
+    // add rating and optional comment to the current product
     $("#ratingButton").click((event) => {
         console.log("Inside ratingButton");
         event.preventDefault();
@@ -94,7 +137,7 @@
         const productId = urlParams.get('id');
         if (userId === null){
             console.log("No user logged in!");
-            // Prompt user to log in before attempting to purchase anything
+            // Prompt user to log in before attempting to rate the product
             $(".comment-box").prepend("<div style='text-align: center; color: red;'>PLEASE LOG IN. YOU MUST BE LOGGED IN TO RATE AN ITEM.</div>");
         } else {
             const jsonFormObj = {"productid":productId, "userid":userId, "rating":$("#ratingField").val(), "comment":$("#commentField").val()};

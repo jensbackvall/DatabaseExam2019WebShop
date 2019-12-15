@@ -12,7 +12,7 @@ $.ajax({
     const comments = res.product.recordsets[1];
     console.log(comments);
 
-    const htmlString = "<div><h3>" + thisProduct.cName + "</h3><br><br>" + thisProduct.cDescription + "<br><br>price: DKK " + thisProduct.nUnitPrice + "</div>";
+    const htmlString = "<div id='productinfo' data-value='" + thisProduct.nUnitPrice + "'><h3>" + thisProduct.cName + "</h3><br><br>" + thisProduct.cDescription + "<br><br>price: DKK " + thisProduct.nUnitPrice + "</div>";
 
     $(".product").append(htmlString);
 
@@ -33,3 +33,5 @@ $.ajax({
         } 
     }        
 });
+
+
