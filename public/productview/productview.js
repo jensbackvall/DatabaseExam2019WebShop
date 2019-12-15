@@ -26,7 +26,8 @@ $.ajax({
 
     for (let i = 0; i < comments.length; i++) {
         const comment = comments[i];
-        if (comment !== '') {
+        console.log(comment);
+        if (comment.cComment !== "") {
             const html_comment = "<div class='comment'>" + comment.cComment + "</div>";
             $(".comment-box").append(html_comment);
         } 

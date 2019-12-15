@@ -259,7 +259,7 @@ app.get('/product', function (req, res) {
     });
 });
 
-/* This endpoint gets a rating and optional comment from the productView. It should correspond to the following sq server statement: INSERT INTO TRating (nUserId, nStar, cComment, nProductId)
+/* This endpoint gets a rating and optional comment from the productView. It should correspond to the following sql server statement: INSERT INTO TRating (nUserId, nStar, cComment, nProductId)
 VALUES (400 , 5, 'Great product. I cannot live without it', 7);*/
 app.post("/rating", (req, res) => {
     const productId = req.body.productid;

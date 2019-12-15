@@ -14,7 +14,7 @@
 <body>
     <header>
         <div class="logo">
-            <a href="../index/index.html">
+            <a href="/">
                 <img src="../images/logo.png" alt="logo">
             </a>
         </div>
@@ -69,7 +69,7 @@
         if (id === null){
             console.log("Id not found");
             // Prompt user to log in before attempting to purchase anything
-            $(".product").append("<div  style='text-align: center; color: red;'>PLEASE LOG IN. YOU MUST BE LOGGED IN TO PURCHASE AN ITEM.</div>");
+            $(".product").append("<div style='text-align: center; color: red;'>PLEASE LOG IN. YOU MUST BE LOGGED IN TO PURCHASE AN ITEM.</div>");
         }else {
             console.log("Id found: ", id);
         }
@@ -95,7 +95,7 @@
         if (userId === null){
             console.log("No user logged in!");
             // Prompt user to log in before attempting to purchase anything
-            $(".purchasing-line").append("<div  style='text-align: center; color: red;'>PLEASE LOG IN. YOU MUST BE LOGGED IN TO RATE AN ITEM.</div>");
+            $(".comment-box").prepend("<div style='text-align: center; color: red;'>PLEASE LOG IN. YOU MUST BE LOGGED IN TO RATE AN ITEM.</div>");
         } else {
             const jsonFormObj = {"productid":productId, "userid":userId, "rating":$("#ratingField").val(), "comment":$("#commentField").val()};
             console.log(jsonFormObj); 
