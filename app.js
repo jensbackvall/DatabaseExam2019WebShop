@@ -229,7 +229,7 @@ app.get('/products', function (req, res) {
     });
 });
 
-// This endpoint fetches a single product from the database based on the products id
+// This endpoint fetches a single product and all comments associated with it from the database, based on the products id
 app.get('/product', function (req, res) {
     const id = req.query.id;
     var pool = new sqlInstance.ConnectionPool(configDB);
@@ -242,7 +242,7 @@ app.get('/product', function (req, res) {
             if(err) console.log(err);
             ps.execute({id}, (err, result) => {
                 // ... error checks
-                console.log(result);
+                console.log(result.recordsets[1]);
                 if(err) console.log(err);
                 res.status(200).json({
                     product: result

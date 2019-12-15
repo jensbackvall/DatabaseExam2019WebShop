@@ -9,6 +9,8 @@ $.ajax({
 }).done(res => {
     const thisProduct = res.product.recordsets[0][0];
     console.log(thisProduct);
+    const comments = res.product.recordsets[1];
+    console.log(comments);
 
     const htmlString = "<div><h3>" + thisProduct.cName + "</h3><br><br>" + thisProduct.cDescription + "<br><br>price: DKK " + thisProduct.nUnitPrice + "</div>";
 
@@ -17,4 +19,13 @@ $.ajax({
     let width = thisProduct.nAverageRating * 22.5;
 
     $(".stars-inner").width(width);
+
+    for (let i = 0; i < comments.length; i++) {
+        const comment = comments[i];
+        // if (comment) {
+        //     $(".purchasing-line").append("<div class='comment-box'></div>");
+        // }
+        const html_comment = "<div class='comment'>" + comment.cComment + "</div>";
+        $(".comment-box").append(html_comment);
+    }        
 });
