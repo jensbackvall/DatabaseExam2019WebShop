@@ -1,4 +1,3 @@
-
 CREATE TABLE TUser_audits(
 	nChangeId INT IDENTITY PRIMARY KEY,
     Old_UserId INT, 
@@ -30,8 +29,10 @@ CREATE TABLE TUser_audits(
 	New_IsActive BIT,
 
 	updated_at DATETIME,
-	updated_by VARCHAR(128),
-	updated_host VARCHAR(128),
+	updated_by NVARCHAR(256),
+	updated_by_id VARBINARY(85),
+	updated_host  NVARCHAR(128),
+	updated_host_id CHAR(8),
 	operation CHAR(1),
 );
 
@@ -41,8 +42,11 @@ CREATE TRIGGER trg_TUser_audits
 AS
 BEGIN
 DECLARE @Type CHAR(1);
-DECLARE @HostName VARCHAR(255);
-DECLARE @Login VARCHAR(255);
+DECLARE @updated_by NVARCHAR(256) = SUSER_SNAME();
+DECLARE @updated_by_id VARBINARY(85) = SUSER_SID();
+
+DECLARE @updated_host NVARCHAR(128) = HOST_NAME();
+DECLARE @updated_host_id CHAR(8) = HOST_ID();
 
 IF EXISTS (SELECT * FROM inserted)
        IF EXISTS (SELECT * FROM deleted)
@@ -52,18 +56,18 @@ IF EXISTS (SELECT * FROM inserted)
 ELSE
        SELECT @Type = 'D'
 
-CREATE TABLE #sp_who2 (SPID INT,Status VARCHAR(255),
-      Login  VARCHAR(255),HostName  VARCHAR(255),
-      BlkBy  VARCHAR(255),DBName  VARCHAR(255),
-      Command VARCHAR(255),CPUTime INT,
-      DiskIO INT,LastBatch VARCHAR(255),
-      ProgramName VARCHAR(255),SPID2 INT,
-      REQUESTID INT)
-INSERT INTO #sp_who2 EXEC sp_who2
-SELECT      TOP 1 @Login = Login, @HostName = HostName
-FROM        #sp_who2
--- Add any filtering of the results here :
-WHERE      HostName != '  .' AND DBName = 'DataBaseExam2019'
+--CREATE TABLE #sp_who2 (SPID INT,Status VARCHAR(255),
+--      Login  VARCHAR(255),HostName  VARCHAR(255),
+--      BlkBy  VARCHAR(255),DBName  VARCHAR(255),
+--      Command VARCHAR(255),CPUTime INT,
+--      DiskIO INT,LastBatch VARCHAR(255),
+--      ProgramName VARCHAR(255),SPID2 INT,
+--      REQUESTID INT)
+--INSERT INTO #sp_who2 EXEC sp_who2
+--SELECT      TOP 1 @Login = Login, @HostName = HostName
+--FROM        #sp_who2
+---- Add any filtering of the results here :
+--WHERE      HostName != '  .' AND DBName = 'DataBaseExam2019'
 
 
 SET NOCOUNT ON;
@@ -92,7 +96,9 @@ SET NOCOUNT ON;
 	Old_IsActive,
 	updated_at,
 	updated_by,
+	updated_by_id,
 	updated_host,
+	updated_host_id,
 	operation
 	)
 
@@ -120,8 +126,10 @@ SET NOCOUNT ON;
 	d.nTotalPurchase,
 	d.bIsActive,
 	GETDATE(),
-	@Login,
-	@HostName,
+	@updated_by,
+	@updated_by_id,
+	@updated_host,
+	@updated_host_id,
 	@Type
 	FROM
 	inserted i

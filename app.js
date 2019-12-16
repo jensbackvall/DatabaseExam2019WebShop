@@ -13,8 +13,8 @@ app.use(bodyParser.json());
 
 // configuration for database
 const configDB = {
-    user: 'sa',
-    password: 'DataBaseExam2019',
+    user: 'AdamAdmin',
+    password: 'Password123',
     server: 'localhost',
     database: 'DataBaseExam2019'
 };
