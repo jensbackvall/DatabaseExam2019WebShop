@@ -67,6 +67,7 @@
     $(`#logOutButton`).click((event) => {
         window.localStorage.removeItem("username");
         window.localStorage.removeItem("userid");
+        window.localStorage.removeItem('productsInCart');
         $(".mid-header").remove(`#logOutButton`);
         location.reload(true);
     });
