@@ -37,6 +37,9 @@ app.get('/login', function (req, res) {
 app.get('/register', function (req, res) {
     res.sendFile(__dirname + '/public/register/register.html');
 });
+app.get('/purchase-completed', function (req, res) {
+    res.sendFile(__dirname + '/public/purchase-completed/purchase-completed.html');
+});
 
 // This endpoint fetches the username and password for validation
 app.post("/signin", (req, res) => {
@@ -374,6 +377,49 @@ app.get('/search', function (req, res) {
         console.log(err);
     });
 });
+
+app.post('/checkout', function (req, res) {
+    const creditcardid = req.body.creditcardid;
+    console.log(creditcardid);
+    const totalprice = req.body.totalprice;
+    console.log(totalprice);
+    const totalvat = req.body.totalvat;
+    console.log(totalvat);
+    const jsonProductsInCart = req.body.productsdata;
+    console.log(jsonProductsInCart);
+    var pool = new sqlInstance.ConnectionPool(configDB);
+    pool.connect().then(function(){ 
+        const ps = new sqlInstance.PreparedStatement(pool)
+        ps.input('creditcardid', sqlInstance.Int);
+        ps.input('totalprice', sqlInstance.Money);
+        ps.input('totalvat', sqlInstance.Money);
+        ps.input('jsonProductsInCart', sqlInstance.NVarChar(sqlInstance.MAX));
+        ps.prepare("EXEC buyProducts @CreditCardId=@creditcardid, @Vat=@totalvat, @TotalPrice=@totalprice,@jsonProducts=@jsonProductsInCart;", err => {
+            // ... error checks
+            if(err) console.log(err);
+            ps.execute({creditcardid, totalprice, totalvat, jsonProductsInCart}, (err, result) => {
+                // ... error checks
+                if(err) {
+                    console.log(err);       
+                } else {
+                    console.log(ps.statement)
+                    console.log(result)      
+                }
+                res.status(200).json({
+                    transaction: result
+                });
+                // release the connection after queries are executed
+                ps.unprepare(err => {
+                    // ... error checks
+                    if(err) console.log(err);
+                })
+            })
+        })
+    })
+});
+
+
+
 
 
 // Run the backend on the chosen port
