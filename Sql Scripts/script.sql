@@ -9308,3 +9308,79 @@ GO
 ALTER TABLE [dbo].[TUser]  WITH CHECK ADD FOREIGN KEY([nCityId])
 REFERENCES [dbo].[TCity] ([nCityId])
 GO
+
+-- On Updating TProduct.nStock
+-- When an invoice is created, a trigger will update the nTotalPurchse on the relevant credit card
+
+
+CREATE TRIGGER UpdateProductStock
+   ON  dbo.TInvoiceLine
+   AFTER INSERT
+AS 
+BEGIN
+DECLARE @InsertedProductID INT;
+DECLARE @InsertedCreditID INT;
+DECLARE @Quantity INT;
+	SELECT @InsertedProductID = i.nProductId FROM inserted i 
+	SELECT @Quantity = i.nQuantity FROM inserted i
+
+    UPDATE TProduct SET TProduct.nStock = TProduct.nStock - @Quantity
+	WHERE TProduct.nProductId = @InsertedProductID 
+END
+
+GO
+
+-- On Updating TCreditCard.TotalPurchase
+-- When an invoice is created, a trigger will update the nTotalPurchse on the relevant credit card
+
+
+CREATE TRIGGER UpdateTotalPurchaseOnCreditCard
+   ON  dbo.TInvoice
+   AFTER UPDATE
+AS 
+BEGIN
+DECLARE @InsertedUserID INT;
+DECLARE @InsertedCreditID INT;
+DECLARE @TotalPrice INT;
+	SELECT @InsertedUserID = i.nUserId FROM inserted i 
+	SELECT @InsertedCreditID = i.nCreditCardID FROM inserted i
+	SELECT @TotalPrice = i.nTotalPrice FROM inserted i
+
+    UPDATE TCreditCard SET TCreditCard.nTotalPurchase = TCreditCard.nTotalPurchase + @TotalPrice
+	WHERE TCreditCard.nCreditCardId = @InsertedCreditID AND TCreditCard.nUserId = @InsertedUserID
+END
+
+GO
+
+-- On Updating TUser.TotalPurchase
+-- When an invoice is created, a trigger will update the nTotalPurchse on the relevant User
+
+CREATE TRIGGER UpdateTotalPurchaseOnUser
+   ON  dbo.TInvoice
+   AFTER UPDATE
+AS 
+BEGIN
+DECLARE @InsertedID INT;
+DECLARE @TotalPrice INT;
+	SELECT @InsertedID = i.nUserId FROM inserted i 
+	SELECT @TotalPrice = i.nTotalPrice FROM inserted i
+
+    UPDATE TUser SET TUser.nTotalPurchase = TUser.nTotalPurchase + @TotalPrice
+	WHERE TUser.nUserId = @InsertedID
+END
+GO
+
+CREATE TRIGGER CreateRating
+   ON  dbo.TRating
+   AFTER INSERT,DELETE,UPDATE
+AS 
+BEGIN
+	BEGIN TRANSACTION T1
+	DECLARE @InsertedID int =  (Select i.nProductId FROM inserted i);
+
+	Update TProduct
+	SET nAverageRating = (Select avg(TRating.nStar) from TRating where nProductId = @InsertedID Group by nProductId)
+	Where TProduct.nProductId = @InsertedID     
+	COMMIT TRANSACTION T1
+END
+GO
