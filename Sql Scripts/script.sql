@@ -3,19 +3,6 @@ CREATE DATABASE DataBaseExam2019
 GO
 USE [DataBaseExam2019]
 GO
-/****** Object:  Table [dbo].[TCityHistory]    Script Date: 09/12/2019 16:29:23 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[TCityHistory](
-	[nCityId] [smallint] NOT NULL,
-	[cZipCode] [varchar](4) NOT NULL,
-	[cName] [varchar](30) NOT NULL,
-	[dValidFrom] [datetime2](2) NOT NULL,
-	[dValidTo] [datetime2](2) NOT NULL
-) ON [PRIMARY]
-GO
 /****** Object:  Table [dbo].[TCity]    Script Date: 09/12/2019 16:29:23 ******/
 SET ANSI_NULLS ON
 GO
@@ -25,18 +12,12 @@ CREATE TABLE [dbo].[TCity](
 	[nCityId] [smallint] IDENTITY(1,1) NOT NULL,
 	[cZipCode] [varchar](4) NOT NULL,
 	[cName] [varchar](30) NOT NULL,
-	[dValidFrom] [datetime2](2) GENERATED ALWAYS AS ROW START NOT NULL,
-	[dValidTo] [datetime2](2) GENERATED ALWAYS AS ROW END NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[nCityId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
 	PERIOD FOR SYSTEM_TIME ([dValidFrom], [dValidTo])
 ) ON [PRIMARY]
-WITH
-(
-SYSTEM_VERSIONING = ON ( HISTORY_TABLE = [dbo].[TCityHistory] )
-)
 GO
 /****** Object:  Table [dbo].[TUser]    Script Date: 09/12/2019 16:29:23 ******/
 SET ANSI_NULLS ON
@@ -54,7 +35,7 @@ CREATE TABLE [dbo].[TUser](
 	[cPhoneNumber] [varchar](8) NOT NULL,
 	[cEmail] [varchar](320) NOT NULL,
 	[nTotalPurchase] [money] NOT NULL,
-	[bIsActive] [bit] NULL
+	[bIsActive] [bit] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[nUserId] ASC
