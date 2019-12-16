@@ -252,7 +252,7 @@ app.get('/product', function (req, res) {
                     // ... error checks
                     if(err) console.log(err);
                 })
-                })
+            })
         })
     }).catch(function (err) {
         console.log(err);

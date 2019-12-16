@@ -27,6 +27,18 @@
     </header>
     <main>
         <div class="basket">
+            <div class="productNameColumn">
+                Product<br><br>
+            </div>
+            <div class="productPriceColumn">
+                Price<br><br>
+            </div>
+            <div class="productQuantityColumn">
+                Quantity<br><br>
+            </div>
+            <div class="productTotalPriceColumn">
+                Total Price<br><br>
+            </div>
 
         </div>
         <div class="purchasing-line">
@@ -49,6 +61,48 @@
 
     const productsInCart = JSON.parse(window.localStorage.getItem('productsInCart'));
     console.log('PRODUCTS IN CART: ', productsInCart);
+    let numberOfProductsInCart = 0;
+    for (var key in productsInCart['Name']) {
+        if(productsInCart['Name'].hasOwnProperty(key))
+        numberOfProductsInCart++;
+    };
+    console.log(numberOfProductsInCart);
+    let productsIdArray = Object.keys(productsInCart['Name']);
+    console.log(productsIdArray);
+    let totalPrice = 0;
+
+    for (let i = 0; i < numberOfProductsInCart; i++) {
+        
+        const productColumn_html = "<div>" + productsInCart['Name'][productsIdArray[i]].substring(0,15) + "</div>";
+
+        const priceColumn_html = "<div>DKK " + productsInCart['Price'][productsIdArray[i]] + "</div>";
+
+        const quantityColumn_html = "<div>" + productsInCart['Quantity'][productsIdArray[i]] + "</div>";
+
+        const totalPriceForProduct = (productsInCart['Price'][productsIdArray[i]] * productsInCart['Quantity'][productsIdArray[i]]);
+
+        const totalPriceColumn_html = "<div>DKK " + totalPriceForProduct + "</div>";
+
+        totalPrice = totalPrice + totalPriceForProduct;
+
+        $(".productNameColumn").append(productColumn_html);
+        $(".productPriceColumn").append(priceColumn_html);
+        $(".productQuantityColumn").append(quantityColumn_html);
+        $(".productTotalPriceColumn").append(totalPriceColumn_html);
+        
+        if (i === numberOfProductsInCart - 1) {
+            $(".productQuantityColumn").append("<br>TOTAL:");
+            $(".productTotalPriceColumn").append("<br>DKK " + totalPrice.toFixed(2));
+            $(".productQuantityColumn").append("<br><br>VAT:");
+            $(".productTotalPriceColumn").append("<br><br>DKK " + (totalPrice * 0.25).toFixed(2));
+            $(".productQuantityColumn").append("<br><br>PRICE + VAT:");
+            const totalPriceInclVAT = totalPrice + (totalPrice * 0.25);
+            $(".productTotalPriceColumn").append("<br><br>DKK " + totalPriceInclVAT.toFixed(2));
+        }
+    }
+
+
+
 
 </script>
 </html>
