@@ -147,7 +147,7 @@
             // Prompt user to log in before attempting to rate the product
             $(".comment-box").prepend("<div style='text-align: center; color: red;'>PLEASE LOG IN. YOU MUST BE LOGGED IN TO RATE AN ITEM.</div>");
         } else {
-            const jsonFormObj = {"productid":productId, "userid":userId, "rating":$("#ratingField").val(), "comment":$("#commentField").val()};
+            const jsonFormObj = {"productid":productId, "userid":userId, "rating":$("#ratingField").val(), "comment":$("#commentField").val() + " Rating: " + $("#ratingField").val()};
             console.log(jsonFormObj); 
             $.ajax({
                 url: '/rating',
