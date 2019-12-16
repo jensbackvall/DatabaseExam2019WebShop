@@ -5365,7 +5365,6 @@ INSERT [dbo].[TProduct] ([nProductId], [cName], [cDescription], [nUnitPrice], [n
 INSERT [dbo].[TProduct] ([nProductId], [cName], [cDescription], [nUnitPrice], [nStock], [nAverageRating]) VALUES (27, N'Single Malt Scotch Whisky Geschenk 1818 23-Karat Deutsches Blattgold - Schottischer Premium Whiskey - Geschenkidee für Männer ', N'Der Whisky Conde Lumar 1818 ist ein unvergleichlicher, extrem eleganter und aromatischer Whisky. Auf der Grundlage unserer Expertise und Erfahrung aus fast 200 Jahren haben wir ein einzigartiges Produkt geschaffen. Das Ergebnis ist ein Meisterwerk, das als Referenz für alles steht, was uns ausmacht: Geduld, Güte, Qualität und meisterhafte Handwerkskunst. ', 79.0000, 20, NULL)
 INSERT [dbo].[TProduct] ([nProductId], [cName], [cDescription], [nUnitPrice], [nStock], [nAverageRating]) VALUES (28, N'Der König der Löwen – Neuverfilmung 2019', N'ist ein computeranimierter US-amerikanischer Kinofilm von Jon Favreau, produziert von ihm selbst, Karen Gilchrist und Jeffrey Silver. ', 89.0000, 60, NULL)
 INSERT [dbo].[TProduct] ([nProductId], [cName], [cDescription], [nUnitPrice], [nStock], [nAverageRating]) VALUES (29, N'Air Force two ', N'If you think number one is good you will love number two! ', 5000000.0000, 30, NULL)
-INSERT [dbo].[TProduct] ([nProductId], [cName], [cDescription], [nUnitPrice], [nStock], [nAverageRating]) VALUES (30, N'Trump Caps ', N'For those who love wall building and big integrity', 99.0000, 100, NULL)
 SET IDENTITY_INSERT [dbo].[TProduct] OFF
 SET IDENTITY_INSERT [dbo].[TUser] ON 
 
@@ -9382,5 +9381,19 @@ BEGIN
 	SET nAverageRating = (Select avg(TRating.nStar) from TRating where nProductId = @InsertedID Group by nProductId)
 	Where TProduct.nProductId = @InsertedID     
 	COMMIT TRANSACTION T1
+END
+GO
+
+CREATE PROCEDURE getProductWithAllComments
+    @productid int
+AS
+BEGIN
+    DECLARE @comment TABLE (cComment text);
+    INSERT INTO @comment (cComment)
+    SELECT cComment FROM TRating
+    WHERE nProductId = @productid;
+
+    SELECT * FROM TProduct WHERE nProductId = @productid;
+    SELECT * FROM @comment;
 END
 GO
