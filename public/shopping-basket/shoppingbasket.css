@@ -67,6 +67,12 @@ main {
     opacity: 0.8;
 }
 
+.creditcard-dropdown {
+    float: left;
+    margin: auto 0;
+    width: 49%;
+}
+
 #logoutbutton {
     margin: auto 0;
     background-color: rgb(172, 76, 175);

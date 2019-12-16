@@ -42,6 +42,12 @@
 
         </div>
         <div class="purchasing-line">
+            <div class="creditcard-dropdown">
+                Choose Credit Card:
+                <select name="rating" id="ratingField">
+
+                </select>
+            </div>
             <button class="purchasing-button">Checkout & Pay</button>
         </div>
     </main>
@@ -62,7 +68,7 @@
     const productsInCart = JSON.parse(window.localStorage.getItem('productsInCart'));
     console.log('PRODUCTS IN CART: ', productsInCart);
     let numberOfProductsInCart = 0;
-    for (var key in productsInCart['Name']) {
+    for (let key in productsInCart['Name']) {
         if(productsInCart['Name'].hasOwnProperty(key))
         numberOfProductsInCart++;
     };
@@ -73,7 +79,7 @@
 
     for (let i = 0; i < numberOfProductsInCart; i++) {
         
-        const productColumn_html = "<div>" + productsInCart['Name'][productsIdArray[i]].substring(0,15) + "</div>";
+        const productColumn_html = "<div>" + productsInCart['Name'][productsIdArray[i]].substring(0,15) + "...</div>";
 
         const priceColumn_html = "<div>DKK " + productsInCart['Price'][productsIdArray[i]] + "</div>";
 

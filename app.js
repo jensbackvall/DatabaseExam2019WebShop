@@ -229,6 +229,37 @@ app.get('/products', function (req, res) {
     });
 });
 
+// This endpoint fetches all credit cards related to the current user. Should correspond to sql server statement: SELECT * FROM TCreditCard WHERE nUserId = 1982;
+app.post('/creditcards', function (req, res) {
+    const userid = req.body.userid;
+    console.log('CURRENT USER ID: ', userid);
+    var pool = new sqlInstance.ConnectionPool(configDB);
+    pool.connect().then(function(){ 
+        // create PreparedStatement object
+        const ps = new sqlInstance.PreparedStatement(pool)
+        ps.input('userid', sqlInstance.Int);
+        ps.prepare("SELECT * FROM TCreditCard WHERE nUserId = @userid;", err => {
+            // ... error checks
+            if(err) console.log(err);
+            ps.execute({userid}, (err, result) => {
+                // ... error checks
+                console.log(result.recordsets);
+                if(err) console.log(err);
+                res.status(200).json({
+                    creditcards: result
+                  });
+                // release the connection after queries are executed
+                ps.unprepare(err => {
+                    // ... error checks
+                    if(err) console.log(err);
+                })
+            })
+        })
+    }).catch(function (err) {
+        console.log(err);
+    });
+});
+
 // This endpoint fetches a single product and all comments associated with it from the database, based on the products id
 app.get('/product', function (req, res) {
     const id = req.query.id;
