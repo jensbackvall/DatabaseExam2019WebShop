@@ -13,11 +13,11 @@ CREATE LOGIN Restricted
 CREATE USER Restricted FOR LOGIN Restricted   
 GO 
 
-GRANT CONTROL ON DATABASE ::DatabaseExam2019 TO AdamAdmin
+ALTER ROLE db_owner ADD MEMBER AdamAdmin
 GO
 ALTER ROLE db_datareader ADD MEMBER Restricted
 GO
 ALTER ROLE db_datareader ADD MEMBER ReaderOnly
 GO
-
-DENY SELECT ON DataBaseExam2019.dbo.TCreditCard TO Restricted
+DENY SELECT ON DataBaseExam2019.dbo.TInvoice TO Restricted
+DENY SELECT ON DataBaseExam2019.dbo.TInVoiceLine TO Restricted
