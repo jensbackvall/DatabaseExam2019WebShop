@@ -1,0 +1,55 @@
+.profile {
+    margin: 2rem;
+    background-color: blanchedalmond;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 5px;
+    height: 150vh;
+    text-align: center;
+}
+
+.profile-intro {
+    margin: 1rem;
+    padding: 1rem;
+    background-color: rgb(201, 184, 158);
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.profile-information {
+    margin: 1 rem;
+    padding: 1rem;
+    background-color: rgb(201, 184, 158);
+    border-radius: 5px;
+    display: inline-block;
+    text-align: left;
+    height: auto;
+}
+
+.creditcard-information {
+    margin: 1rem;
+    padding: 1rem;
+    background-color: rgb(201, 184, 158);
+    border-radius: 5px;
+    display: inline-block;
+    text-align: left;
+    height: auto;
+
+}
+
+.singlecreditcard {
+    margin: 1rem;
+    padding: 1rem;
+    background-color: cadetblue;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.deletebutton {
+    margin: auto 0;
+    background-color: rgb(185, 40, 40);
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+}

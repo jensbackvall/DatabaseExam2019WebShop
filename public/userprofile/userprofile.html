@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>KEA webshop</title>
     <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
-    <script src="../index/index.js"></script>
-    <link rel="stylesheet" type="text/css" href="../purchase-completed/purchase-completed.css" />
+    <script src="../userprofile/userprofile.js"></script>
+    <link rel="stylesheet" type="text/css" href="../userprofile/userprofile.css" />
     <link rel="stylesheet" type="text/css" href="../main.css" />
 </head>
 <body>
@@ -28,27 +28,43 @@
         </div>
     </header>
     <main>
-        <div class="completed">
-            YOUR PURCHASE WAS SUCCESFUL!<br>
-            CLICK THE ICON IN THE TOP LEFT<br>
-            CORNER TO RETURN TO THE MAIN PAGE
+        <div class="profile">
+            <div class="profile-intro">
+                <h2>Profile</h2>
+                This is all information we have about you.
+                We are sorry to say that you cannot delete or
+                edit any personal information at the moment, but you
+                can delete credit cards, as long as you have
+                at least ONE credit card attached to your account.
+            </div>
+            <div class="profile-information">
+                <h2>PERSONAL INFO</h2>
+
+            </div>
+            <div class="creditcard-information">
+                <h2>CREDIT CARDS</h2>
+
+            </div>
+            
         </div>
     </main>
     <footer></footer>
 </body>
 
 <script>
+    
     if (window.localStorage.getItem('username') != null) {
         $(".mid-header").html("Logged in as: " + window.localStorage.getItem('username') + "<br><br><button type='submit' id='logOutButton'>Log Out</button><br><br><a href='../userprofile/userprofile.html'>EDIT PROFILE</a>");    
     }
 
-    $(`#logOutButton`).click((event) => {
-        window.localStorage.removeItem("username");
-        window.localStorage.removeItem("userid");
+    $('#logOutButton').click((event) => {
+        window.localStorage.removeItem('username');
+        window.localStorage.removeItem('userid');
         window.localStorage.removeItem('productsInCart');
-        $(".mid-header").remove(`#logOutButton`);
-        location.reload(true);
+        $(".mid-header").remove('#logOutButton');
+        window.location.replace("/login");
     });
+
 </script>
 
 </html>
