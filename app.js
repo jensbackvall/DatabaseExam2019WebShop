@@ -54,7 +54,7 @@ app.post("/signin", (req, res) => {
             const ps = new sqlInstance.PreparedStatement(pool)
             ps.input('username', sqlInstance.VarChar(25));
             ps.input('password', sqlInstance.VarChar(25));
-            ps.prepare("SELECT nUserId FROM TUser WHERE cUsername=@username AND cPassword=@password;", err => {
+            ps.prepare("SELECT nUserId FROM TUser WHERE cUsername=@username AND cPassword=@password AND bIsActive=1;", err => {
                 // ... error checks
                 if(err) console.log(err);
                 ps.execute({username: enteredUsername,password: enteredPassword}, (err, result) => {
