@@ -122,7 +122,7 @@
 
     // Check if a user i logged in and display username and logout button if this is true
     if (window.localStorage.getItem('username') != null) {
-        $(".mid-header").html("Logged in as: " + window.localStorage.getItem('username') + "<br><br><button type='submit'  id='logOutButton'>Log Out</button>");    
+        $(".mid-header").html("Logged in as: " + window.localStorage.getItem('username') + "<br><br><button type='submit' id='logOutButton'>Log Out</button><br><br><a href='../userprofile/userprofile.html'>EDIT PROFILE</a>");    
     }
 
     // Drop localstorage user variable and remove username and logout button if logout button is clicked

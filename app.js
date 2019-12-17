@@ -40,6 +40,9 @@ app.get('/register', function (req, res) {
 app.get('/purchase-completed', function (req, res) {
     res.sendFile(__dirname + '/public/purchase-completed/purchase-completed.html');
 });
+app.get('/userprofile', function (req, res) {
+    res.sendFile(__dirname + '/public/userprofile/userprofile.html');
+});
 
 // This endpoint fetches the username and password for validation
 app.post("/signin", (req, res) => {
@@ -54,7 +57,7 @@ app.post("/signin", (req, res) => {
             const ps = new sqlInstance.PreparedStatement(pool)
             ps.input('username', sqlInstance.VarChar(25));
             ps.input('password', sqlInstance.VarChar(25));
-            ps.prepare("SELECT nUserId FROM TUser WHERE cUsername=@username AND cPassword=@password;", err => {
+            ps.prepare("SELECT nUserId FROM TUser WHERE cUsername=@username AND cPassword=@password AND bIsActive=1;", err => {
                 // ... error checks
                 if(err) console.log(err);
                 ps.execute({username: enteredUsername,password: enteredPassword}, (err, result) => {
@@ -93,6 +96,38 @@ app.post("/signin", (req, res) => {
     }
 });
 
+
+// This endpoint fetches a single user and the corresponding city with zipcode from the database, based on the users id
+app.get('/getuser', function (req, res) {
+    const id = req.query.id;
+    console.log(id);
+    var pool = new sqlInstance.ConnectionPool(configDB);
+    pool.connect().then(function(){ 
+        // create PreparedStatement object
+        const ps = new sqlInstance.PreparedStatement(pool)
+        ps.input('id', sqlInstance.Int);
+        ps.prepare("SELECT TUser.*, TCity.cName AS cCityName, TCity.cZipCode AS cZipCode FROM TUser JOIN TCity ON TUser.nCityId = TCity.nCityId WHERE TUser.nUserId = @id;", err => {
+            // ... error checks
+            if(err) console.log(err);
+            ps.execute({id}, (err, result) => {
+                // ... error checks
+                const thisUser = result.recordset[0];
+                console.log(thisUser);
+                if(err) console.log(err);
+                res.status(200).json({
+                    user: thisUser
+                  });
+                // release the connection after queries are executed
+                ps.unprepare(err => {
+                    // ... error checks
+                    if(err) console.log(err);
+                })
+            })
+        })
+    }).catch(function (err) {
+        console.log(err);
+    });
+});
 
 // This endpoint fetches the user credentials and creditcard information for storing
 app.post("/registeruser", (req, res) => {
@@ -258,6 +293,65 @@ app.post('/creditcards', function (req, res) {
                 })
             })
         })
+    }).catch(function (err) {
+        console.log(err);
+    });
+});
+
+// This endpoint deletes a creditcard based on the id of the creditcard
+app.post('/deletecreditcard', function (req, res) {
+    const creditcardid = req.body.creditcardid;
+    console.log('CURRENT CREDIT CARD ID: ', creditcardid);
+    var pool = new sqlInstance.ConnectionPool(configDB);
+    pool.connect().then(function(){ 
+        // create PreparedStatement object
+        const ps = new sqlInstance.PreparedStatement(pool)
+        const ps2 = new sqlInstance.PreparedStatement(pool)
+        ps.input('creditcardid', sqlInstance.Int);
+        ps2.input('creditcardid', sqlInstance.Int);
+
+        ps.prepare("SELECT COUNT(*) FROM dbo.TCreditCard INNER JOIN dbo.TInvoice ON TInvoice.nCreditCardId = TCreditCard.nCreditCardId WHERE dbo.TCreditCard.nCreditCardId = @creditcardid;", err => {
+            // ... error checks
+            if(err) console.log(err);
+            ps.execute({creditcardid}, (err, result) => {
+                // ... error checks
+                console.log('NUMBER OF INVOICES USING THIS CARD:' ,result.recordset[0]['']);
+                if(err) console.log(err);
+
+                if (result.recordset[0][''] === 0) {
+
+                    ps2.prepare("DELETE FROM TCreditCard WHERE nCreditCardId = @creditcardid;", err => {
+                        // ... error checks
+                        if(err) console.log(err);
+                        ps2.execute({creditcardid}, (err, result) => {
+                            // ... error checks
+                            console.log(result);
+                            if(err) console.log(err);
+                            res.status(200).json({
+                                result: result
+                              });
+                            // release the connection after queries are executed
+                            ps2.unprepare(err => {
+                                // ... error checks
+                                if(err) console.log(err);
+                            })
+                        })
+                    })
+
+                } else {
+                    res.status(200).json({
+                        message: 'this card cannot be deleted!'
+                    });
+                }
+
+                // release the connection after queries are executed
+                ps.unprepare(err => {
+                    // ... error checks
+                    if(err) console.log(err);
+                })
+            })
+        })
+        
     }).catch(function (err) {
         console.log(err);
     });

@@ -55,7 +55,7 @@
 </body>
 <script>
     if (window.localStorage.getItem('username') != null) {
-        $(".mid-header").html("Logged in as: " + window.localStorage.getItem('username') + "<br><br><button type='submit'  id='logOutButton'>Log Out</button>");    
+        $(".mid-header").html("Logged in as: " + window.localStorage.getItem('username') + "<br><br><button type='submit' id='logOutButton'>Log Out</button><br><br><a href='../userprofile/userprofile.html'>EDIT PROFILE</a>");    
     }
 
     $(`#logOutButton`).click((event) => {

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KEA webshop</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
+    <script src="../userprofile/userprofile.js"></script>
+    <link rel="stylesheet" type="text/css" href="../userprofile/userprofile.css" />
+    <link rel="stylesheet" type="text/css" href="../main.css" />
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/">
+                <img src="../images/logo.png" alt="logo">
+            </a>
+        </div>
+        <div class="mid-header">
+            
+        </div>
+        <div class="loginregister">
+            <button class="gotologinbutton" onclick="window.location.href = '../login/login.html';">LOG IN</button>
+            <button class="gotoregisterbutton" onclick="window.location.href = '../register/register.html';">REGISTER NEW USER</button>
+            <br><br><br>
+            <a class="cart" href="../shopping-basket/shoppingbasket.html"><img src="../images/cart.png" alt="cart"></a>
+        </div>
+    </header>
+    <main>
+        <div class="profile">
+            <div class="profile-intro">
+                <h2>Profile</h2>
+                This is all information we have about you.
+                We are sorry to say that you cannot delete or
+                edit any personal information at the moment, but you
+                can delete credit cards, as long as you have
+                at least TWO credit cards attached to your account.<br><br>
+                NB! You can only delete credit cards that have never been used in this webshop!
+            </div>
+            <div class="profile-information">
+                <h2>PERSONAL INFO</h2>
+
+            </div>
+            <div class="creditcard-information">
+                <h2>CREDIT CARDS</h2>
+
+            </div>
+            
+        </div>
+    </main>
+    <footer></footer>
+</body>
+
+<script>
+    
+    if (window.localStorage.getItem('username') != null) {
+        $(".mid-header").html("Logged in as: " + window.localStorage.getItem('username') + "<br><br><button type='submit' id='logOutButton'>Log Out</button><br><br><a href='../userprofile/userprofile.html'>EDIT PROFILE</a>");    
+    }
+
+    $('#logOutButton').click((event) => {
+        window.localStorage.removeItem('username');
+        window.localStorage.removeItem('userid');
+        window.localStorage.removeItem('productsInCart');
+        $(".mid-header").remove('#logOutButton');
+        window.location.replace("/login");
+    });
+
+</script>
+
+</html>
+
